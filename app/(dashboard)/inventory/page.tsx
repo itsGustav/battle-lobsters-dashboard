@@ -1,18 +1,21 @@
 import { createClient } from '@/lib/supabase/server'
 import { InventoryGrid } from '@/components/inventory-grid'
 import { InventoryFilters } from '@/components/inventory-filters'
+import type { Tables } from '@/lib/database.types'
 
 export default async function InventoryPage() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   // Fetch all inventory items
-  const { data: items } = await supabase
+  const { data: itemsData } = await supabase
     .from('inventory_items')
     .select('*')
     .eq('user_id', user!.id)
     .order('grade_index', { ascending: false })
     .order('acquired_at', { ascending: false })
+
+  const items = itemsData as Tables<'inventory_items'>[] | null
 
   return (
     <div className="space-y-6">

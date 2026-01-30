@@ -3,6 +3,7 @@ import {
   Swords, Trophy, Clock, Coins, 
   TrendingUp, Target, Package, Star 
 } from 'lucide-react'
+import type { Tables } from '@/lib/database.types'
 
 export default async function DashboardPage() {
   const supabase = createClient()
@@ -21,10 +22,12 @@ export default async function DashboardPage() {
     .select('*', { count: 'exact', head: true })
     .eq('user_id', user!.id)
 
-  const { data: gradeBreakdown } = await supabase
+  const { data: gradeBreakdownData } = await supabase
     .from('inventory_items')
     .select('grade')
     .eq('user_id', user!.id)
+
+  const gradeBreakdown = gradeBreakdownData as { grade: string }[] | null
 
   // Count grades
   const gradeCounts = {
@@ -39,12 +42,14 @@ export default async function DashboardPage() {
   })
 
   // Fetch recent sessions
-  const { data: recentSessions } = await supabase
+  const { data: recentSessionsData } = await supabase
     .from('game_sessions')
     .select('*')
     .eq('user_id', user!.id)
     .order('started_at', { ascending: false })
     .limit(5)
+
+  const recentSessions = recentSessionsData as Tables<'game_sessions'>[] | null
 
   // Format play time
   const hours = Math.floor((profile?.total_play_time_seconds || 0) / 3600)
