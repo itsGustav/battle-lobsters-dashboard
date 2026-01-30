@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --grade-general: #9ca3af;
+  --grade-rare: #3b82f6;
+  --grade-epic: #a855f7;
+  --grade-legendary: #f59e0b;
+  --grade-1of1: #ec4899;
+}
+
+@layer base {
+  * {
+    @apply border-slate-800;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-slate-900 border border-slate-800 rounded-xl p-6;
+  }
+  
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-slate-800 hover:bg-slate-700 text-slate-100 font-medium py-2 px-4 rounded-lg transition-colors;
+  }
+  
+  .input {
+    @apply bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+  
+  .grade-general { @apply text-gray-400 border-gray-400; }
+  .grade-rare { @apply text-blue-400 border-blue-400; }
+  .grade-epic { @apply text-purple-400 border-purple-400; }
+  .grade-legendary { @apply text-amber-400 border-amber-400; }
+  .grade-1of1 { @apply text-pink-400 border-pink-400 animate-pulse; }
+  
+  .bg-grade-general { @apply bg-gray-400/10; }
+  .bg-grade-rare { @apply bg-blue-400/10; }
+  .bg-grade-epic { @apply bg-purple-400/10; }
+  .bg-grade-legendary { @apply bg-amber-400/10; }
+  .bg-grade-1of1 { @apply bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-blue-500/20; }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-600;
+}
