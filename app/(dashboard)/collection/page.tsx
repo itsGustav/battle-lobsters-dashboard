@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { CollectionGrid } from '@/components/collection-grid'
+import type { Tables } from '@/lib/database.types'
 
 // Item metadata (would come from item_schema.json in production)
 const TOTAL_ITEMS_PER_SLOT = 15
@@ -10,10 +11,12 @@ export default async function CollectionPage() {
   const { data: { user } } = await supabase.auth.getUser()
 
   // Fetch collection data
-  const { data: collection } = await supabase
+  const { data: collectionData } = await supabase
     .from('collection')
     .select('*')
     .eq('user_id', user!.id)
+
+  const collection = collectionData as Tables<'collection'>[] | null
 
   // Calculate completion stats
   const totalPossible = SLOTS.length * TOTAL_ITEMS_PER_SLOT * 5 // 5 grades
