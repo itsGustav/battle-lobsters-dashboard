@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { Sidebar } from '@/components/sidebar'
 import { Header } from '@/components/header'
+import type { Tables } from '@/lib/database.types'
 
 export default async function DashboardLayout({
   children,
@@ -16,15 +17,17 @@ export default async function DashboardLayout({
   }
 
   // Fetch profile
-  const { data: profile } = await supabase
+  const { data: profileData } = await supabase
     .from('profiles')
     .select('*')
     .eq('id', user.id)
     .single()
 
-  if (!profile) {
+  if (!profileData) {
     redirect('/login')
   }
+
+  const profile = profileData as Tables<'profiles'>
 
   return (
     <div className="min-h-screen flex">

@@ -10,11 +10,13 @@ export default async function DashboardPage() {
   const { data: { user } } = await supabase.auth.getUser()
 
   // Fetch profile
-  const { data: profile } = await supabase
+  const { data: profileData } = await supabase
     .from('profiles')
     .select('*')
     .eq('id', user!.id)
     .single()
+
+  const profile = profileData as Tables<'profiles'> | null
 
   // Fetch inventory stats
   const { count: totalItems } = await supabase
