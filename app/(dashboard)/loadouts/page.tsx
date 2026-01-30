@@ -1,13 +1,26 @@
 import { createClient } from '@/lib/supabase/server'
 import { LoadoutCard } from '@/components/loadout-card'
 import { Plus } from 'lucide-react'
+import type { Tables } from '@/lib/database.types'
+
+type LoadoutWithItems = Tables<'loadouts'> & {
+  head_item: Tables<'inventory_items'> | null
+  antennae_item: Tables<'inventory_items'> | null
+  claw_left_item: Tables<'inventory_items'> | null
+  claw_right_item: Tables<'inventory_items'> | null
+  thorax_item: Tables<'inventory_items'> | null
+  legs_item: Tables<'inventory_items'> | null
+  abdomen_item: Tables<'inventory_items'> | null
+  tail_item: Tables<'inventory_items'> | null
+  cosmetic_item: Tables<'inventory_items'> | null
+}
 
 export default async function LoadoutsPage() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   // Fetch loadouts with equipped items
-  const { data: loadouts } = await supabase
+  const { data: loadoutsData } = await supabase
     .from('loadouts')
     .select(`
       *,
@@ -23,6 +36,8 @@ export default async function LoadoutsPage() {
     `)
     .eq('user_id', user!.id)
     .order('created_at', { ascending: true })
+
+  const loadouts = loadoutsData as LoadoutWithItems[] | null
 
   return (
     <div className="space-y-6">

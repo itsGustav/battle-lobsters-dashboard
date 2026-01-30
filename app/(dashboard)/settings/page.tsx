@@ -19,6 +19,10 @@ export default async function SettingsPage() {
     .eq('user_id', user!.id)
     .single()
 
+  if (!profileData || !settingsData) {
+    return <div>Loading...</div>
+  }
+
   const profile = profileData as Tables<'profiles'>
   const settings = settingsData as Tables<'user_settings'>
 
