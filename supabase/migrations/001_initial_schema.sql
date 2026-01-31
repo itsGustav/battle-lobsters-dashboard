@@ -41,7 +41,7 @@ CREATE TABLE public.profiles (
 -- INVENTORY ITEMS
 -- ============================================
 CREATE TABLE public.inventory_items (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
     
     -- Item identity
@@ -80,7 +80,7 @@ CREATE INDEX idx_inventory_grade ON public.inventory_items(user_id, grade);
 -- LOADOUTS (saved builds)
 -- ============================================
 CREATE TABLE public.loadouts (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
     
     name TEXT NOT NULL DEFAULT 'New Loadout',
@@ -112,7 +112,7 @@ CREATE INDEX idx_loadouts_user ON public.loadouts(user_id);
 -- COLLECTION (codex - tracks discovered items)
 -- ============================================
 CREATE TABLE public.collection (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
     
     item_id TEXT NOT NULL,  -- e.g., 'samurai_kabuto'
@@ -157,7 +157,7 @@ CREATE TABLE public.achievements (
 );
 
 CREATE TABLE public.player_achievements (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
     achievement_id TEXT NOT NULL REFERENCES public.achievements(id),
     
@@ -174,7 +174,7 @@ CREATE INDEX idx_player_achievements_user ON public.player_achievements(user_id)
 -- GAME SESSIONS (for play tracking)
 -- ============================================
 CREATE TABLE public.game_sessions (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
     
     started_at TIMESTAMPTZ DEFAULT NOW(),

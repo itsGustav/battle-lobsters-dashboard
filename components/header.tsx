@@ -23,13 +23,13 @@ export function Header({ profile }: HeaderProps) {
       {/* Right side */}
       <div className="flex items-center gap-4">
         {/* Play button */}
-        <a
-          href="#"
+        <button
+          onClick={() => alert('Game coming soon! 🦞')}
           className="btn-primary flex items-center gap-2"
         >
           <Gamepad2 className="w-4 h-4" />
           Play Now
-        </a>
+        </button>
 
         {/* Notifications */}
         <button className="relative p-2 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded-lg transition-colors">
